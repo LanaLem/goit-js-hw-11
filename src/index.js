@@ -25,7 +25,11 @@ loadMoreBtn.refs.button.addEventListener("click", fetchImages);
 function onFormElSubmit(e) { 
     e.preventDefault();
 
-    newApiServise.searchQuery = e.target.elements.searchQuery.value;
+    newApiServise.searchQuery = e.target.elements.searchQuery.value.trim();
+
+    if (!newApiServise.searchQuery) { 
+        return warningOnFail()
+    }
 
     galleryReset();
     
