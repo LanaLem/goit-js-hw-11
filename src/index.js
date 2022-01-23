@@ -10,6 +10,7 @@ const refs = {
     formEl: document.querySelector("#search-form"),
     galleryEl: document.querySelector(".gallery"),
 }
+
 const newApiServise = new ApiServise();
 
 const loadMoreBtn = new LoadBtn({
@@ -20,7 +21,7 @@ const loadMoreBtn = new LoadBtn({
 let counter = 0;
 
 refs.formEl.addEventListener("submit", onFormElSubmit);
-loadMoreBtn.refs.button.addEventListener("click", fetchImages);
+loadMoreBtn.refs.button.addEventListener("click", onLoadMoreBtnClick);
 
 function onFormElSubmit(e) { 
     e.preventDefault();
@@ -35,6 +36,12 @@ function onFormElSubmit(e) {
     
     fetchImages()
         .then(warningOnSuccsess)
+        .catch(console.log);
+}
+
+function onLoadMoreBtnClick() {
+    fetchImages()
+        .then(scroll)
         .catch(console.log);
 }
 
@@ -63,13 +70,22 @@ function fetchImages() {
 
             return totalHits;
         })
-        .catch(console.log);
 }
 
 function renderMarkup(images) {
     refs.galleryEl.insertAdjacentHTML('beforeend', markup(images));
     let lightbox = new SimpleLightbox('.gallery a', { 'animationSpeed': "250" });
-    
+}
+
+function scroll() {
+    const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+    });
 }
 
 function warningOnFail() {
