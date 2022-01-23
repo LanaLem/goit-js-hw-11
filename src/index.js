@@ -82,5 +82,6 @@ function warningOnEndOfCollection(totalHits) {
 
 function galleryReset() {
     refs.galleryEl.innerHTML = '';
-    newApiServise.resetPage()
+    newApiServise.resetPage();
+    counter = 0;
 }
